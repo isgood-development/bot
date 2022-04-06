@@ -7,4 +7,5 @@ As of the 6th of April 2022 I (acatia) have decided to revive ISgood bot. I anno
 At the time of announcing this, the bot won't be available to add to your server as it's under development.
 
 Thanks,
+
 acatia
