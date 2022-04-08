@@ -21,31 +21,33 @@ class ISgood(commands.Bot):
         intents = discord.Intents.default()
         intents.message_content = True
         intents.members = True
-        desc = "I am your worst nightmare."
 
         self.conn = None
         self.prefixes = {}
+        self.bans = []
         self.startup_time = discord.utils.utcnow()
 
         super().__init__(
             command_prefix=get_prefix,
-            description=desc,
             intents=intents,
             help_command=commands.MinimalHelpCommand(),
             case_insensitive=True,
             tree_cls=app_commands.CommandTree
         )
 
-    def cache_prefixes(self):
-        data = self.conn.fetch("SELECT * FROM prefixes")
+    def create_items(self):
+        prefixes = self.conn.fetch("SELECT * FROM prefixes")
+        bans = self.conn.fetch("SELECT * FROM bans")
 
-        for item in data:
-            bot.prefixes[item['guildid']] = item['prefix']
+        for item in prefixes: # Cache custom guild prefixes
+            self.prefixes[item['guildid']] = item['prefix']
 
-        for guild in bot.guilds:
+        for guild in bot.guilds: # Cache prefixes that haven't been customized in the rest of the guilds
             if not guild.id in bot.prefixes:
-                bot.prefixes[guild.id] = "."
+                self.prefixes[guild.id] = "."
 
+        for ban in bans: # Cache users that've been bot banned
+            self.bans.append(ban)
 
     async def setup_hook(self):
         self.conn = await asyncpg.create_pool(
