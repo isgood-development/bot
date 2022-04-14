@@ -7,7 +7,9 @@ from discord import app_commands
 from discord.ext import commands
 
 extensions = [
-    "cogs.mod"
+    "cogs.mod",
+    "cogs.settings",
+    # "cogs.tasks"
 ]
 
 def get_prefix(bot, message):
@@ -35,12 +37,15 @@ class ISgood(commands.Bot):
             tree_cls=app_commands.CommandTree
         )
 
-    def create_items(self):
-        prefixes = self.conn.fetch("SELECT * FROM prefixes")
-        bans = self.conn.fetch("SELECT * FROM bans")
+    async def create_items(self):
+        prefixes = await self.conn.fetch("SELECT * FROM prefixes")
+        bans = await self.conn.fetch("SELECT * FROM botbans")
+
+        print(prefixes)
+        print(bans)
 
         for item in prefixes: # Cache custom guild prefixes
-            self.prefixes[item['guildid']] = item['prefix']
+            self.prefixes[item['guild_id']] = item['prefix']
 
         for guild in bot.guilds: # Cache prefixes that haven't been customized in the rest of the guilds
             if not guild.id in bot.prefixes:
@@ -48,6 +53,9 @@ class ISgood(commands.Bot):
 
         for ban in bans: # Cache users that've been bot banned
             self.bans.append(ban)
+        
+        print(self.bans)
+        print(self.prefixes)
 
     async def setup_hook(self):
         self.conn = await asyncpg.create_pool(
@@ -59,7 +67,7 @@ class ISgood(commands.Bot):
 
     async def on_ready(self):
         print(f"Logged in as '{self.user}'")
-        self.cache_prefixes()
+        await self.create_items()
 
 
 bot = ISgood()
@@ -75,4 +83,5 @@ async def main():
             await bot.load_extension(cog)
         await bot.start(config("TOKEN"))
 
-asyncio.run(main())
+if __name__ == "__main__":
+    asyncio.run(main())
