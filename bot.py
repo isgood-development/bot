@@ -1,3 +1,4 @@
+from typing import Union
 import asyncpg
 import asyncio
 from decouple import config
@@ -31,6 +32,9 @@ class ISgood(commands.Bot):
         self.prefixes = {}
         self.bans = []
         self.startup_time = discord.utils.utcnow()
+        
+        self.tick = '<:isgood_check:964533255439257630>' 
+        self.cross = '<:isgood_cross:964533968068284456>' 
 
         super().__init__(
             command_prefix=get_prefix,
@@ -63,6 +67,21 @@ class ISgood(commands.Bot):
         await self.create_items()
 
 bot = ISgood()
+
+@bot.tree.error
+async def command_error(
+        interaction: discord.Interaction, 
+        command: Union[app_commands.Command, app_commands.ContextMenu],
+        error: app_commands.AppCommandError
+    ):
+    if isinstance(error, app_commands.MissingPermissions):
+        missing_perms = error.missing_permissions
+        await interaction.response.send_message(f"{bot.cross} **You** are missing the following permission(s) to use this:\n`{', '.join(missing_perms)}`")
+
+    if isinstance(error, app_commands.BotMissingPermissions):
+        missing_perms = error.missing_permissions
+        # TODO: add documentation for fixing this issue
+        await interaction.response.send_message(f"{bot.cross} **The bot** is missing the following permission(s) to do this:\n`{', '.join(missing_perms)}`")
 
 @bot.command(name="synccmds", aliases=['s'])
 @commands.is_owner()
