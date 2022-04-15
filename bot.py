@@ -16,6 +16,9 @@ def get_prefix(bot, message):
     if not message.guild:
         return commands.when_mentioned_or(".")(bot, message)
 
+    if message.guild.id not in bot.prefixes:
+        return commands.when_mentioned_or(".")(bot, message)
+    
     return commands.when_mentioned_or(bot.prefixes[message.guild.id])(bot, message)
 
 class ISgood(commands.Bot):
@@ -41,21 +44,11 @@ class ISgood(commands.Bot):
         prefixes = await self.conn.fetch("SELECT * FROM prefixes")
         bans = await self.conn.fetch("SELECT * FROM botbans")
 
-        print(prefixes)
-        print(bans)
-
         for item in prefixes: # Cache custom guild prefixes
             self.prefixes[item['guild_id']] = item['prefix']
 
-        for guild in bot.guilds: # Cache prefixes that haven't been customized in the rest of the guilds
-            if not guild.id in bot.prefixes:
-                self.prefixes[guild.id] = "."
-
         for ban in bans: # Cache users that've been bot banned
             self.bans.append(ban)
-        
-        print(self.bans)
-        print(self.prefixes)
 
     async def setup_hook(self):
         self.conn = await asyncpg.create_pool(
@@ -69,12 +62,12 @@ class ISgood(commands.Bot):
         print(f"Logged in as '{self.user}'")
         await self.create_items()
 
-
 bot = ISgood()
 
-@bot.command(name="synccmds")
+@bot.command(name="synccmds", aliases=['s'])
+@commands.is_owner()
 async def synccmds(ctx):
-    await bot.tree.sync(guild=discord.Object(id=769281768821620746))
+    await bot.tree.sync(guild=discord.Object(id=723237557009252404))
     await ctx.send(":+1:")
 
 async def main():
