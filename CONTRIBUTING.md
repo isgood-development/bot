@@ -14,6 +14,7 @@ To ensure a level of consistency, please do the following when making contributi
     * Use the commit description to provide more information on the commit.
 * Don't use unnecessarily hateful speech in commits, PRs or issues.
 * Ensure commit names are relevant to the commit itself.
+* Use present-tense commit names. I.E "Add ...", not "Added ..."
 * Don't be a dick.
 
 ## Types of contributions we welcome
