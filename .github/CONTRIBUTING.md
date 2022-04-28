@@ -15,6 +15,8 @@ To ensure a level of consistency, please do the following when making contributi
 * Don't use unnecessarily hateful speech in commits, PRs or issues.
 * Ensure commit names are relevant to the commit itself.
 * Use present-tense commit names. I.E "Add ...", not "Added ..."
+* Commits to the dashboard must be prefixed with `[web]`. I.E `[web] Fix something`.
+* Local imports must be separated from package imports.
 * Don't be a dick.
 
 ## Types of contributions we welcome
