@@ -1,16 +1,22 @@
-from typing import Union
 import asyncpg
 import asyncio
+import winerp 
 from decouple import config
+
+import logging
+from logging import getLogger
 
 import discord
 from discord import app_commands
 from discord.ext import commands
 
+getLogger("winerp").setLevel(logging.DEBUG)
+
 extensions = [
-    "cogs.mod",
-    "cogs.settings",
-    # "cogs.tasks"
+    # "cogs.mod",
+    # "cogs.settings",
+    "cogs.test",
+    # "cogs.ipc_routes"
 ]
 
 def get_prefix(bot, message):
@@ -22,20 +28,12 @@ def get_prefix(bot, message):
     
     return commands.when_mentioned_or(bot.prefixes[message.guild.id])(bot, message)
 
+intents = discord.Intents.default()
+intents.message_content = True
+intents.members = True
+
 class ISgood(commands.Bot):
     def __init__(self):
-        intents = discord.Intents.default()
-        intents.message_content = True
-        intents.members = True
-
-        self.conn = None
-        self.prefixes = {}
-        self.bans = []
-        self.startup_time = discord.utils.utcnow()
-        
-        self.tick = '<:isgood_check:964533255439257630>' 
-        self.cross = '<:isgood_cross:964533968068284456>' 
-
         super().__init__(
             command_prefix=get_prefix,
             intents=intents,
@@ -43,6 +41,17 @@ class ISgood(commands.Bot):
             case_insensitive=True,
             tree_cls=app_commands.CommandTree
         )
+        self.conn = None
+        self.loop 
+        self.prefixes = {}
+        self.bans = []
+        self.startup_time = discord.utils.utcnow()
+
+        self.ipc = winerp.Client("ig-bot", port=5464)
+        
+        self.tick = '<:isgood_check:964533255439257630>' 
+        self.cross = '<:isgood_cross:964533968068284456>' 
+
 
     async def create_items(self):
         prefixes = await self.conn.fetch("SELECT * FROM prefixes")
@@ -68,20 +77,32 @@ class ISgood(commands.Bot):
 
 bot = ISgood()
 
-@bot.tree.error
-async def command_error(
-        interaction: discord.Interaction, 
-        command: Union[app_commands.Command, app_commands.ContextMenu],
-        error: app_commands.AppCommandError
-    ):
-    if isinstance(error, app_commands.MissingPermissions):
-        missing_perms = error.missing_permissions
-        await interaction.response.send_message(f"{bot.cross} **You** are missing the following permission(s) to use this:\n`{', '.join(missing_perms)}`")
+@bot.ipc.route(name="get_guild_ids")
+async def get_guild_ids():
+    final = []
+    for guild in bot.guilds:
+        final.append(guild.id)
 
-    if isinstance(error, app_commands.BotMissingPermissions):
-        missing_perms = error.missing_permissions
-        # TODO: add documentation for fixing this issue
-        await interaction.response.send_message(f"{bot.cross} **The bot** is missing the following permission(s) to do this:\n`{', '.join(missing_perms)}`")
+    return final
+
+@bot.ipc.route(name="get_guild_data")
+async def get_guild_data(guild_id):
+    g = bot.get_guild(guild_id)
+    prefix = await bot.conn.fetch("SELECT * FROM prefixes WHERE guild_id = $1", guild_id)
+    modrole = await bot.conn.fetch("SELECT * FROM config WHERE guild_id = $1", guild_id)
+    
+    data = {
+        "name": g.name,
+        "icon_url": g.icon.url,
+        "created_at": g.created_at,
+        "owner": g.owner.name,
+        "channels": [str(channel) for channel in g.channels],
+        "roles": [str(role) for role in g.roles],
+        "prefix": prefix if prefix else None,
+        "modrole": modrole
+    }
+    
+    return data 
 
 @bot.command(name="synccmds", aliases=['s'])
 @commands.is_owner()
@@ -93,6 +114,9 @@ async def main():
     async with bot:
         for cog in extensions:
             await bot.load_extension(cog)
+
+        bot.loop.create_task(bot.ipc.start())
+        
         await bot.start(config("TOKEN"))
 
 if __name__ == "__main__":
