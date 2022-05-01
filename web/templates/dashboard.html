@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <title>{{name}} - Dashboard</title>
+        <link rel="stylesheet" type="text/css" href="static/server_select.css" />
+    </head>
+    <body>
+        <h1>{{name}}'s Dashboard</h1>
+        <img src="{{icon_url}}" width="50">
+        <p>
+            Created: {{created_at}}<br>
+            Owner: {{owner}}<br>
+            Prefix: {{prefix if prefix != None else "."}}<br>
+            Modrole: {{modrole if modrole != None else "Not set"}}
+        </p>
+        <h2>Channels</h2>
+        <ul>
+            {% for channel in channels %}
+                <li>{{channel}}</li>
+            {% endfor %}
+        </ul>
+    </body>
+</html>

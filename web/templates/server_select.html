@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <title>Select Server</title>
+        <link rel="stylesheet" type="text/css" href="static/server_select.css"/>
+    </head>
+    <body>
+        <p>Hello, {{username}}! Select a server below to go to the dashboard.</p>
+        <br />
+        <div class="server-picker">
+            <section class="cards">
+                {% for guild in all_guilds %}
+                    <div class="card">
+                        <a href="/dashboard/{{guild.id}}">
+                            {% if guild.icon_url is not none %}
+                                <img src="{{guild.icon_url}}" class="{{guild.class_color}}" />
+                            {% else %}
+                                <img src="static/ISgood.png" class="{{guild.class_color}}">
+                            {% endif %}
+                        </a>
+                        <br>
+                        <p>{{guild.name}}</p>
+                    </div>
+                {% endfor %}
+            </section>
+        </div>
+    </body>
+</html>
