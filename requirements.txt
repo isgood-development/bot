@@ -3,3 +3,6 @@ asyncpg
 python-decouple
 python-dateutil
 parsedatetime
+winerp
+quart
+quart-discord
