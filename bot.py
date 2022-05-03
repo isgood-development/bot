@@ -88,6 +88,10 @@ async def get_guild_ids():
 @bot.ipc.route(name="get_guild_data")
 async def get_guild_data(guild_id):
     g = bot.get_guild(guild_id)
+    
+    if not g:
+        return None
+    
     prefix = await bot.conn.fetch("SELECT * FROM prefixes WHERE guild_id = $1", guild_id)
     modrole = await bot.conn.fetch("SELECT * FROM config WHERE guild_id = $1", guild_id)
     
