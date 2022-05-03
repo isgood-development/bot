@@ -5,10 +5,12 @@ from logging import getLogger
 import logging
 import winerp
 
-app = Quart(__name__)
+from dashboard import dash
+
+app = Quart(__name__, static_folder="./templates/static/")
+app.register_blueprint(dash)
 
 getLogger("winerp").setLevel(logging.DEBUG)
-ipc = winerp.Client("ig-web", port=5464)
 
 
 app.config["SECRET_KEY"] = "."
@@ -16,13 +18,14 @@ app.config["DISCORD_CLIENT_ID"] = config("CLIENT_ID")
 app.config["DISCORD_CLIENT_SECRET"] = config("CLIENT_SECRET")
 app.config["DISCORD_REDIRECT_URI"] = "http://127.0.0.1:3050/callback"   
 
-discord = DiscordOAuth2Session(app)
+app.discord = DiscordOAuth2Session(app)
+app.ipc = winerp.Client("ig-web", port=5464)
 
 @app.before_first_request
 async def start_ipc_client():
     print('starting IPC client')
     try:
-        await ipc.start()
+        await app.ipc.start()
     except Exception as e:
         print(f'failed to connect to IPC client:\n\n {e}')
     finally:
@@ -30,16 +33,16 @@ async def start_ipc_client():
 
 @app.route("/")
 async def home():
-    return await render_template("index.html")
+    return await render_template("index.html", authorized=app.discord.authorized)
 
 @app.route("/login")
 async def login():
-    return await discord.create_session()
+    return await app.discord.create_session()
 
 @app.route("/callback")
 async def callback():
     try:
-        await discord.callback()
+        await app.discord.callback()
     except:
         pass
 
@@ -47,57 +50,27 @@ async def callback():
 
 @app.route("/server-selection")
 async def server_selection():
-    if not await discord.authorized:
+    if not await app.discord.authorized:
         return redirect(url_for("login"))
     
-    guild_ids = await ipc.request("get_guild_ids", source="ig-bot")
-    user_guilds = await discord.fetch_guilds()
+    user_guilds = await app.discord.fetch_guilds()
     
     all_guilds = []
 
-    print(1)
     for guild in user_guilds:
         if guild.permissions.administrator:
             guild.cls_colour = "green-border" if guild.id in all_guilds else "red-border"
             all_guilds.append(guild)
     
     all_guilds.sort(key=lambda x: x.cls_colour == "red-border")
-    
-    print(2)
 
-    uname = await discord.fetch_user()
+    uname = await app.discord.fetch_user()
     uname = uname.name
-    
-    print(3)
-
-    print(guild_ids)
 
     return await render_template(
         "server_select.html",
         all_guilds=all_guilds,
         username=uname
-    )
-
-@app.route("/dashboard/<int:guild_id>")
-async def dashboard(guild_id):
-    if not await discord.authorized:
-        return redirect(url_for("login"))
-    
-    guild = await ipc.request("get_guild_data", source="ig-bot", guild_id=guild_id)
-
-    if guild is None:
-        return redirect(f"https://discord.com/api/oauth2/authorize?client_id={app.config['DISCORD_CLIENT_ID']}&permissions=8&scope=bot%20applications.commands")
-
-    return await render_template(
-        "dashboard.html",
-        name=guild["name"],
-        icon_url=guild["icon_url"],
-        created_at=guild["created_at"],
-        owner=guild["owner"],
-        channels=guild["channels"],
-        roles=guild["roles"],
-        prefix=guild["prefix"],
-        modrole=guild["modrole"]
     )
 
 if __name__ == "__main__":
