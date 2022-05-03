@@ -3,8 +3,17 @@
         <title>ISgood</title>
     </head>
     <body>
+        <ul>
+            <li><a href="{{url_for('home')}}">Home Page</a></li>
+            <li><a href="{{url_for('server_selection')}}">Server Selection</a></li>
+        </ul>
+
         <h1>hi</h1>
         <br />
-        <a href="{{url_for('login')}}">Login using Discord</a>
+        {% if not authorized %}
+            <a href="{{url_for('login')}}">Login using Discord</a>
+        {% else %}
+            <a href="{{url_for('server_selection')}}">Go to dashboard</a>
+        {% endif %}
     </body>
-</html>
+</html> 
