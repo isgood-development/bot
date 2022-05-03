@@ -97,13 +97,15 @@ async def get_guild_data(guild_id):
     
     data = {
         "name": g.name,
-        "icon_url": g.icon.url,
+        "icon_url": g.icon.url if g.icon else None,
         "created_at": g.created_at,
         "owner": g.owner.name,
         "channels": [str(channel) for channel in g.channels],
         "roles": [str(role) for role in g.roles],
-        "prefix": prefix if prefix else None,
-        "modrole": modrole
+        "prefix": prefix if prefix else ".",
+        "modrole": modrole if modrole else None,
+        "member_count": len(g.members),
+        "member_count_no_bot": len([m for m in g.members if not m.bot])
     }
     
     return data 
