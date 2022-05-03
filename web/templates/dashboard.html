@@ -4,19 +4,23 @@
         <link rel="stylesheet" type="text/css" href="static/server_select.css" />
     </head>
     <body>
-        <h1>{{name}}'s Dashboard</h1>
-        <img src="{{icon_url}}" width="50">
-        <p>
-            Created: {{created_at}}<br>
-            Owner: {{owner}}<br>
-            Prefix: {{prefix if prefix != None else "."}}<br>
-            Modrole: {{modrole if modrole != None else "Not set"}}
-        </p>
-        <h2>Channels</h2>
         <ul>
-            {% for channel in channels %}
-                <li>{{channel}}</li>
-            {% endfor %}
+            <li><a href="{{url_for('home')}}">Home Page</a></li>
+            <li><a href="{{url_for('server_selection')}}">Server Selection</a></li>
         </ul>
-    </body>
+        <h2>Your server stats</h2>
+        <p>
+            Your server has <strong>{{member_count}}</strong> members!<br>
+            {{bots}} of which are bots.
+            That means there are {{member_count_no_bot}} humans in your server.
+        </p>
+
+        <h1>{{name}}'s Dashboard</h1>
+        <p>Your guilds dashboard. This is where you can configure settings for the bot.</p>
+
+        <p>Bot prefix</p>
+        <form method="post">
+            <input name="prefix-input" type="text" placeholder="{{prefix}}">
+            (Note: we recommend using our slash commands!)
+        </form>
 </html>
