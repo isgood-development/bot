@@ -53,13 +53,14 @@ async def server_selection():
     if not await app.discord.authorized:
         return redirect(url_for("login"))
     
+    bot_guilds = await app.ipc.request("get_guild_ids", source="ig-bot")
     user_guilds = await app.discord.fetch_guilds()
     
     all_guilds = []
 
     for guild in user_guilds:
         if guild.permissions.administrator:
-            guild.cls_colour = "green-border" if guild.id in all_guilds else "red-border"
+            guild.cls_colour = "green-border" if guild.id in bot_guilds else "red-border"
             all_guilds.append(guild)
     
     all_guilds.sort(key=lambda x: x.cls_colour == "red-border")
