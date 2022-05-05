@@ -33,7 +33,17 @@ async def start_ipc_client():
 
 @app.route("/")
 async def home():
-    return await render_template("index.html", authorized=app.discord.authorized)
+    user = await app.discord.fetch_user()
+
+    uname = user.name
+    uavatar = user.avatar_url
+
+    return await render_template(
+            "index.html",
+            authorized=app.discord.authorized,
+            avatar=uavatar,
+            username=uname
+        )
 
 @app.route("/login")
 async def login():
@@ -65,13 +75,16 @@ async def server_selection():
     
     all_guilds.sort(key=lambda x: x.cls_colour == "red-border")
 
-    uname = await app.discord.fetch_user()
-    uname = uname.name
+    user = await app.discord.fetch_user()
+    
+    uname = user.name
+    uavatar = user.avatar_url
 
     return await render_template(
         "server_select.html",
         all_guilds=all_guilds,
-        username=uname
+        username=uname,
+        avatar=uavatar
     )
 
 if __name__ == "__main__":
