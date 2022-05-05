@@ -1,19 +1,85 @@
-<html>
-    <head>
-        <title>ISgood</title>
-    </head>
-    <body>
-        <ul>
-            <li><a href="{{url_for('home')}}">Home Page</a></li>
-            <li><a href="{{url_for('server_selection')}}">Server Selection</a></li>
-        </ul>
+<!DOCTYPE html>
+<html lang="en">
 
-        <h1>hi</h1>
-        <br />
-        {% if not authorized %}
-            <a href="{{url_for('login')}}">Login using Discord</a>
-        {% else %}
-            <a href="{{url_for('server_selection')}}">Go to dashboard</a>
-        {% endif %}
-    </body>
-</html> 
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISgood Development</title>
+    <meta content="ISgood Development" property="og:title" />
+    <meta content="Coming Soon™" property="og:description" />
+    <meta content="https://isgood.dev" property="og:url" />
+    <meta content="./static/ISgood.png" property="og:image" />
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+    <link rel="manifest" href="/static/site.webmanifest">
+    <link rel="shortcut icon" href="/static/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="/static/browserconfig.xml">
+
+
+    <meta name="theme-color" content="#7844f0">
+    <link rel="stylesheet" href="static/index.css?v=10">
+    <script src="https://kit.fontawesome.com/90ff4c6df2.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <!-- Start of the header -->
+    <div class="header hidden">
+        <div class="logo">
+            <a href="" class="logo">
+                <img class="alogo" src="./static/ISgood.png">
+                <p class="accent isgood-text">ISgood.dev</p>
+            </a>
+        </div>
+        <div class="header-left">
+            <a href="/invite"><i class="fa-solid fa-plus" style="margin-right: 5px"></i>Invite</a>
+            <a href="/discord"><i class="fa-brands fa-discord" style="margin-right: 5px"></i>Discord</a>
+            <a href="/docs"><i class="fa-solid fa-book" style="margin-right: 5px"></i>Docs</a>
+            <a href="/dash"><i class="fa-solid fa-gear" style="margin-right: 5px"></i>Dashboard</a>
+        </div>
+        <div class="user-info">
+            <a href="" class="user-info">
+                <img class="user-logo"
+                    src="https://cdn.discordapp.com/avatars/508662064063971348/a_e7f3b7c6703250b5f3c6305d5d41b483.gif?size=1024">
+                <p class="accent">cosrnic#5436</p>
+            </a>
+        </div>
+    </div>
+    <div class="header">
+        <div class="logo">
+            <a href="" class="logo">
+                <img class="alogo" src="./static/ISgood.png">
+                <p class="accent isgood-text">ISgood.dev</p>
+            </a>
+        </div>
+        <div class="header-left">
+            <a href="/invite"><i class="fa-solid fa-plus" style="margin-right: 5px"></i>Invite</a>
+            <a href="/discord"><i class="fa-brands fa-discord" style="margin-right: 5px"></i>Discord</a>
+            <a href="/docs"><i class="fa-solid fa-book" style="margin-right: 5px"></i>Docs</a>
+            <a href="{{url_for('login')}}"><i class="fa-solid fa-gear" style="margin-right: 5px"></i>Dashboard</a>
+        </div>
+        <div class="user-info">
+            <a href="{{url_for('login')}}" class="user-info">
+                <button class="login-button">Log In</button>
+            </a>
+        </div>
+    </div>
+    <!-- End of the header -->
+    <main>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+            <path fill="#5000ca" fill-opacity="1"
+                d="M0,288L80,245.3C160,203,320,117,480,112C640,107,800,181,960,208C1120,235,1280,213,1360,202.7L1440,192L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z">
+            </path>
+        </svg>
+        <p>hello world</p>
+    </main>
+</body>
+
+</html>
