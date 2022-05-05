@@ -29,8 +29,8 @@ async def dashboard(guild_id):
         owner=guild["owner"],
         channels=guild["channels"],
         roles=guild["roles"],
-        prefix=guild["prefix"],
-        modrole=guild["modrole"],
+        # prefix=guild["prefix"],
+        # modrole=guild["modrole"],
         member_count=guild["member_count"],
         member_count_no_bot=guild["member_count_no_bot"],
         bots=int(guild["member_count"]) - int(guild["member_count_no_bot"])

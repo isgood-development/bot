@@ -52,7 +52,7 @@ async def callback():
 async def server_selection():
     if not await app.discord.authorized:
         return redirect(url_for("login"))
-    
+
     bot_guilds = await app.ipc.request("get_guild_ids", source="ig-bot")
     user_guilds = await app.discord.fetch_guilds()
     

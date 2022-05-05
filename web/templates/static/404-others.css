@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+
+:root {
+    --bg-colour: #202020;
+    --accent-colour: #7844f0;
+    --header-colour: #313131;
+    --text-colour: #eff1f1;
+}
+
+* {
+    font-family: 'Nunito';
+}
+
+body {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('https://cdn.discordapp.com/attachments/728304518173032449/971750558891388938/059.png');
+    background-color: var(--bg-colour);
+    /* background-repeat: no-repeat; */
+    background-position: center;
+    background-size: 90%;
+    color: var(--text-colour);
+    font-size: 50px;
+    overflow: hidden
+}
+
+
+.main {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    cursor: default;
+
+}
+
+.title {
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.title:hover {
+    font-weight: 600;
+    background: -webkit-linear-gradient(-75deg, #7844f0, #5d41f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.desc {
+    font-weight: 400;
+    font-size: 35px;
+    display: inline-block;
+}
+
+.logo {
+    width: 125px;
+    box-shadow: 0 0 54px 6px rgba(187, 187, 187, 0.2);
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+.github-text {
+    color: --var(--text-colour);
+    transition: 0.3s;
+}
+
+.github-text:hover {
+    color: #7844f0;
+}
+
+.github {
+    margin-top: 10px;
+    box-shadow: 0 0 10px 6px rgba(187, 187, 187, 0.2);
+    border-radius: 15px;
+    padding: 10px;
+    border: 3px solid var(--text-colour);
+    font-size: 40px;
+    transition: 0.3s;
+}
+
+.atmylimit {
+    border-radius: 15px;
+    transition: 0.3s;
+}
+
+.atmylimit:hover {
+    box-shadow: 0 0 10px 6px rgba(120, 68, 240, 0.2);
+}
+
+.github:hover {
+    box-shadow: 0 0 10px 6px rgba(120, 68, 240, 0.2);
+    border-color: #7844f0;
+    color: #7844f0;
+}
+
+
+.no-extra {
+    text-decoration: none;
+    color: var(--text-colour);
+}
+
+.no-select {
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Safari */
+    -khtml-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently supported by Chrome and Opera */
+}
+
+@media only screen and (max-width: 600px) {
+    .title {
+        font-size: 45px;
+        text-align: center;
+    }
+  }
