@@ -21,6 +21,11 @@ async def dashboard(guild_id):
     if guild is None:
         return redirect(f"https://discord.com/api/oauth2/authorize?client_id={app.config['DISCORD_CLIENT_ID']}&permissions=8&scope=bot%20applications.commands")
 
+    user = await app.discord.fetch_user()
+
+    uname = user.name
+    uavatar = user.avatar_url
+
     return await render_template(
         "dashboard.html",
         name=guild["name"],
@@ -33,5 +38,8 @@ async def dashboard(guild_id):
         modrole=guild["modrole"],
         member_count=guild["member_count"],
         member_count_no_bot=guild["member_count_no_bot"],
-        bots=int(guild["member_count"]) - int(guild["member_count_no_bot"])
+        bots=int(guild["member_count"]) - int(guild["member_count_no_bot"]),
+        username=uname,
+        avatar=uavatar,
+
     )
