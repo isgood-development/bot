@@ -54,7 +54,12 @@ async def home():
 
 @app.route("/login")
 async def login():
-    return await app.discord.create_session()
+    return await app.discord.create_session(
+        scope=[
+            "guilds",
+            "identify"
+        ]
+    )
 
 @app.route("/logout")
 async def logout():
