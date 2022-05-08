@@ -39,16 +39,18 @@ async def home():
         user = await app.discord.fetch_user()
         uname = user.name
         uavatar = user.avatar_url
+        return await render_template(
+                "index.html",
+                authorized=authorized,
+                avatar=uavatar,
+                username=uname
+            )
     else:
-        uname = None
-        uavatar = None
-
-    return await render_template(
+        return await render_template(
             "index.html",
-            authorized=authorized,
-            avatar=uavatar,
-            username=uname
+            authorized=authorized
         )
+
 
 @app.route("/login")
 async def login():
