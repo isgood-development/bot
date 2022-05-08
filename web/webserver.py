@@ -33,14 +33,19 @@ async def start_ipc_client():
 
 @app.route("/")
 async def home():
-    user = await app.discord.fetch_user()
+    authorized = await app.discord.authorized
 
-    uname = user.name
-    uavatar = user.avatar_url
+    if authorized:
+        user = await app.discord.fetch_user()
+        uname = user.name
+        uavatar = user.avatar_url
+    else:
+        uname = None
+        uavatar = None
 
     return await render_template(
             "index.html",
-            authorized=app.discord.authorized,
+            authorized=authorized,
             avatar=uavatar,
             username=uname
         )
