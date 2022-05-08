@@ -34,7 +34,7 @@ async def start_ipc_client():
 @app.route("/")
 async def home():
     authorized = await app.discord.authorized
-    
+
     if authorized:
         user = await app.discord.fetch_user()
         uname = user.name
@@ -53,6 +53,16 @@ async def home():
 @app.route("/login")
 async def login():
     return await app.discord.create_session()
+
+@app.route("/logout")
+async def logout():
+    app.discord.revoke()
+
+    return redirect(url_for("home"))
+
+@app.route("/invite")
+async def invite():
+    return "todo"
 
 @app.route("/callback")
 async def callback():
