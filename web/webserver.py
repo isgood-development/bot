@@ -34,7 +34,7 @@ async def start_ipc_client():
 @app.route("/")
 async def home():
     authorized = await app.discord.authorized
-    
+
     if authorized:
         user = await app.discord.fetch_user()
         uname = user.name

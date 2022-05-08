@@ -21,7 +21,7 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="msapplication-config" content="/static/browserconfig.xml">
     <script src="https://kit.fontawesome.com/90ff4c6df2.js" crossorigin="anonymous"></script>
-        <link rel="stylesheet" type="text/css" href="static/server_select.css?v=69"/>
+        <link rel="stylesheet" type="text/css" href="static/server_select.css?v=107"/>
     </head>
     <body>
         <div class="header">
@@ -48,10 +48,11 @@
         <main class="amain">
             
             <br />
+            <div class="welcome">
+                <p class="large">Hello, {{username}}!</p><p style="margin-left: 10px;">Select a server to go to the dashboard.</p>
+            </div>
             <div class="server-picker">
-                <div class="welcome">
-                    <p>Hello, {{username}}! Select a server to go to the dashboard.</p>
-                </div>
+                
     
                 <section class="cards">
                     {% for guild in all_guilds %}
@@ -69,6 +70,7 @@
                             </div>
                         </div>
                     {% endfor %}
+                    
                     
                 </section>
             </div>

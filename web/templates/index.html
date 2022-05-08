@@ -31,6 +31,27 @@
 
 <body>
     <!-- Start of the header -->
+    <div class="header hidden">
+        <div class="logo">
+            <a href="" class="logo">
+                <img class="alogo" src="./static/ISgood.png">
+                <p class="accent isgood-text">ISgood.dev</p>
+            </a>
+        </div>
+        <div class="header-left">
+            <a href="/invite"><i class="fa-solid fa-plus" style="margin-right: 5px"></i>Invite</a>
+            <a href="/discord"><i class="fa-brands fa-discord" style="margin-right: 5px"></i>Discord</a>
+            <a href="/docs"><i class="fa-solid fa-book" style="margin-right: 5px"></i>Docs</a>
+            <a href="/dash"><i class="fa-solid fa-gear" style="margin-right: 5px"></i>Dashboard</a>
+        </div>
+        <div class="user-info">
+            <a href="{{url_for('home')}}" class="user-info">
+                <img class="user-logo"
+                    src="{{avatar}}">
+                <p class="accent">{{username}}</p>
+            </a>
+        </div>
+    </div>
     <div class="header">
         <div class="logo">
             <a href="" class="logo">
@@ -44,20 +65,11 @@
             <a href="/docs"><i class="fa-solid fa-book" style="margin-right: 5px"></i>Docs</a>
             <a href="{{url_for('login')}}"><i class="fa-solid fa-gear" style="margin-right: 5px"></i>Dashboard</a>
         </div>
-        {% if not authorized %}
-            <div class="user-info">
-                <a href="{{url_for('login')}}" class="user-info">
-                    <button class="login-button">Log In</button>
-                </a>
-            </div>
-        {% else %}
-            <div class="user-info">
-                <a href="{{url_for('home')}}" class="user-info">
-                    <img class="user-logo" src="{{avatar}}">
-                    <p class="accent">{{username}}</p>
-                </a>
-            </div>
-        {% endif %}
+        <div class="user-info">
+            <a href="{{url_for('login')}}" class="user-info">
+                <button class="login-button">Log In</button>
+            </a>
+        </div>
     </div>
     <!-- End of the header -->
     <main>
@@ -69,5 +81,4 @@
         <p>hello world</p>
     </main>
 </body>
-
 </html>
