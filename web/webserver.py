@@ -14,8 +14,11 @@ getLogger("winerp").setLevel(logging.DEBUG)
 
 
 app.config["SECRET_KEY"] = "."
-app.config["DISCORD_CLIENT_ID"] = config("CLIENT_ID")
-app.config["DISCORD_CLIENT_SECRET"] = config("CLIENT_SECRET")
+try:
+    app.config["DISCORD_CLIENT_ID"] = config("CLIENT_ID")
+    app.config["DISCORD_CLIENT_SECRET"] = config("CLIENT_SECRET")
+except UndefinedValueError:
+    raise ValueError("You haven't provided a CLIENT_ID or CLIENT_SECRET in the '.env' file.")
 app.config["DISCORD_REDIRECT_URI"] = "http://127.0.0.1:3050/callback"   
 
 app.discord = DiscordOAuth2Session(app)

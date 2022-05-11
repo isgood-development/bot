@@ -1,7 +1,7 @@
 import asyncpg
 import asyncio
 import winerp 
-from decouple import config
+from decouple import config, UndefinedValueError
 
 import logging
 from logging import getLogger
@@ -64,11 +64,15 @@ class ISgood(commands.Bot):
             self.bans.append(ban)
 
     async def setup_hook(self):
-        self.conn = await asyncpg.create_pool(
+        try:
+            self.conn = await asyncpg.create_pool(
             database="testDB",
             user="postgres",
             password=config("DB_PASSWORD")
-        )
+            )
+        except UndefinedValueError:
+            raise ValueError("You haven't provided a DB password in the '.env' file.\n\nUSe bot_noDB.py if you have no database.")
+
         print("database connected")
 
     async def on_ready(self):
@@ -123,7 +127,10 @@ async def main():
 
         bot.loop.create_task(bot.ipc.start())
         
-        await bot.start(config("TOKEN"))
+        try:
+            await bot.start(config("TOKEN"))
+        except UndefinedValueError:
+            raise ValueError("You haven't provided a token in the '.env' file.")
 
 if __name__ == "__main__":
     asyncio.run(main())
