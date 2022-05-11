@@ -1,6 +1,6 @@
 import asyncio
 import winerp 
-from decouple import config
+from decouple import config, UndefinedValueError
 
 import logging
 from logging import getLogger
@@ -123,7 +123,10 @@ async def main():
 
         bot.loop.create_task(bot.ipc.start())
         
-        await bot.start(config("TOKEN"))
+        try:
+            await bot.start(config("TOKEN"))
+        except UndefinedValueError:
+            raise ValueError("You haven't provided a token in the '.env' file.")
 
 if __name__ == "__main__":
     asyncio.run(main())
