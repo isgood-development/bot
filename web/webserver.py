@@ -1,6 +1,6 @@
 from quart import Quart, render_template, request, session, redirect, url_for
 from quart_discord import DiscordOAuth2Session
-from decouple import config
+from decouple import config, UndefinedValueError
 from logging import getLogger
 import logging
 import winerp
