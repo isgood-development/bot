@@ -4,8 +4,8 @@
         <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ISgood Development - Server Select</title>
-    <meta content="ISgood Development - Server Select" property="og:title" />
+    <title>Server Selection</title>
+    <meta content="ISgood Development - Server Selection" property="og:title" />
     <meta content="Coming Soon™" property="og:description" />
     <meta content="https://isgood.dev" property="og:url" />
     <meta content="./static/ISgood.png" property="og:image" />
@@ -46,13 +46,13 @@
             </div>
         </div>
         <main class="amain">
-            
+
             <br />
             <div class="server-picker">
                 <div class="welcome">
                     <p>Hello, {{username}}! Select a server to go to the dashboard.</p>
                 </div>
-    
+
                 <section class="cards">
                     {% for guild in all_guilds %}
                         <div class="card">
@@ -60,7 +60,7 @@
                                 {% if guild.icon_url is not none %}
                                     <img src="{{guild.icon_url}}" class="{{guild.cls_colour}} guild-icons" />
                                 {% else %}
-                                    <img src="static/ISgood.png" class="{{guild.cls_colour}} guild-icons">
+                                    <img src="https://cdn.discordapp.com/embed/avatars/1.png" class="{{guild.cls_colour}} guild-icons">
                                 {% endif %}
                             </a>
                             <br>
@@ -69,7 +69,7 @@
                             </div>
                         </div>
                     {% endfor %}
-                    
+
                 </section>
             </div>
     </main>
