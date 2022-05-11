@@ -1,5 +1,7 @@
 from quart import Blueprint, render_template, redirect, request, url_for, current_app as app
 
+from utils.data import _inform_to_bot
+
 dash = Blueprint("dashboard", __name__)
 
 
@@ -14,7 +16,10 @@ async def dashboard(guild_id):
     
     if request.method == "POST":
         form = await request.form
-        print(form)
+
+        await _inform_to_bot(form, app.ipc)
+        
+        return "req sent"
 
     guild = await app.ipc.request("get_guild_data", source="ig-bot", guild_id=guild_id)
 
