@@ -12,7 +12,6 @@
 }
 
 body {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('https://cdn.discordapp.com/attachments/728304518173032449/971750558891388938/059.png');
     background-color: var(--bg-colour);
     /* background-repeat: no-repeat; */
     background-position: center;

@@ -12,6 +12,10 @@ app.register_blueprint(dash)
 
 getLogger("winerp").setLevel(logging.DEBUG)
 
+@app.errorhandler(404)
+
+async def not_found(e):
+    return await render_template("404.html")
 
 app.config["SECRET_KEY"] = "."
 try:
