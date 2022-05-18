@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+
 :root {
     --bg-colour: #202020;
     --accent-colour: #ae35ff;
@@ -59,6 +60,7 @@ body {
     color: var(--text-colour);
     margin-left: 10px;
 }
+
 .alogo {
     width: 50px;
     height: 50px;
@@ -84,8 +86,8 @@ body {
     margin-left: 25px;
     justify-content: center;
     align-items: center;
-    margin-top:auto;
-    margin-bottom:auto;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 .isgood-text {
@@ -106,15 +108,17 @@ body {
     }
 
     .user-info {
-        display:none;
+        display: none;
     }
+
     .isgood-text {
-        display:none;
+        display: none;
     }
 
     .header-right {
         float: none;
     }
+
     .alogo {
         margin-bottom: 15px;
     }
@@ -135,7 +139,7 @@ body {
     height: 50px;
     border-radius: 50px;
     margin-bottom: 0px;
-    
+
 }
 
 .accent {
@@ -152,7 +156,7 @@ body {
     border-radius: 7px;
     font-size: 20px;
     margin-right: 20px;
-    
+
 }
 
 .login-button:hover {
@@ -208,7 +212,7 @@ body {
 }
 
 .server-picker {
-    
+
     margin: 2em;
     margin-top: 0px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -235,6 +239,7 @@ body {
         rgba(2, 8, 20, 0.08) 0px 0.175em 0.5em;
     transform: scale(1.1);
 }
+
 .guild-icon:hover {
     box-shadow: rgba(2, 8, 20, 0.1) 0px 0.35em 1.175em,
         rgba(2, 8, 20, 0.08) 0px 0.175em 0.5em;
