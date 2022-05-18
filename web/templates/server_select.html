@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
+
+<head>
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Server Selection</title>
-    <meta content="ISgood Development - Server Selection" property="og:title" />
+    <title>ISgood Development - Server Select</title>
+    <meta content="ISgood Development - Server Select" property="og:title" />
     <meta content="Coming Soon™" property="og:description" />
     <meta content="https://isgood.dev" property="og:url" />
     <meta content="./static/ISgood.png" property="og:image" />
-
-
-
 
     <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
@@ -21,57 +19,61 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="msapplication-config" content="/static/browserconfig.xml">
     <script src="https://kit.fontawesome.com/90ff4c6df2.js" crossorigin="anonymous"></script>
-        <link rel="stylesheet" type="text/css" href="static/server_select.css?v=69"/>
-    </head>
-    <body>
-        <div class="header">
-            <div class="logo">
-                <a href="{{url_for('home')}}" class="logo">
-                    <img class="alogo" src="./static/ISgood.png">
-                    <p class="accent isgood-text">ISgood.dev</p>
-                </a>
-            </div>
-            <div class="header-left">
-                <a href="/invite"><i class="fa-solid fa-plus" style="margin-right: 5px"></i>Invite</a>
-                <a href="/discord"><i class="fa-brands fa-discord" style="margin-right: 5px"></i>Discord</a>
-                <a href="/docs"><i class="fa-solid fa-book" style="margin-right: 5px"></i>Docs</a>
-                <a href="/dash"><i class="fa-solid fa-gear" style="margin-right: 5px"></i>Dashboard</a>
-            </div>
-            <div class="user-info">
-                <a href="" class="user-info">
-                    <img class="user-logo"
-                        src="{{avatar}}">
-                    <p class="accent">{{username}}</p>
-                </a>
-            </div>
+    <link rel="stylesheet" type="text/css" href="static/server_select.css?v=107" />
+</head>
+
+<body>
+    <div class="header">
+        <div class="logo">
+            <a href="{{url_for('home')}}" class="logo">
+                <img class="alogo" src="./static/ISgood.png">
+                <p class="accent isgood-text">ISgood.dev</p>
+            </a>
         </div>
-        <main class="amain">
+        <div class="header-left">
+            <a href="/invite"><i class="fa-solid fa-plus" style="margin-right: 5px"></i>Invite</a>
+            <a href="/discord"><i class="fa-brands fa-discord" style="margin-right: 5px"></i>Discord</a>
+            <a href="/docs"><i class="fa-solid fa-book" style="margin-right: 5px"></i>Docs</a>
+            <a href="/server-select"><i class="fa-solid fa-gear" style="margin-right: 5px"></i>Dashboard</a>
+        </div>
+        <div class="user-info">
+            <a href="" class="user-info">
+                <img class="user-logo" src="{{avatar}}">
+                <p class="accent">{{username}}</p>
+            </a>
+        </div>
+    </div>
+    <main class="amain">
 
-            <br />
-            <div class="server-picker">
-                <div class="welcome">
-                    <p>Hello, {{username}}! Select a server to go to the dashboard.</p>
+        <br />
+        <div class="welcome">
+            <p class="large">Hello, {{username}}!</p>
+            <p style="margin-left: 10px;">Select a server to go to the dashboard.</p>
+        </div>
+        <div class="server-picker">
+
+
+            <section class="cards">
+                {% for guild in all_guilds %}
+                <div class="card">
+                    <a class="guild-icon" href="/dashboard/{{guild.id}}">
+                        {% if guild.icon_url is not none %}
+                        <img src="{{guild.icon_url}}" class="{{guild.cls_colour}} guild-icons" />
+                        {% else %}
+                        <img src="static/ISgood.png" class="{{guild.cls_colour}} guild-icons">
+                        {% endif %}
+                    </a>
+                    <br>
+                    <div class="guild-name">
+                        <p>{{guild.name}}</p>
+                    </div>
                 </div>
+                {% endfor %}
 
-                <section class="cards">
-                    {% for guild in all_guilds %}
-                        <div class="card">
-                            <a class="guild-icon" href="/dashboard/{{guild.id}}">
-                                {% if guild.icon_url is not none %}
-                                    <img src="{{guild.icon_url}}" class="{{guild.cls_colour}} guild-icons" />
-                                {% else %}
-                                    <img src="https://cdn.discordapp.com/embed/avatars/1.png" class="{{guild.cls_colour}} guild-icons">
-                                {% endif %}
-                            </a>
-                            <br>
-                            <div class="guild-name">
-                                <p>{{guild.name}}</p>
-                            </div>
-                        </div>
-                    {% endfor %}
 
-                </section>
-            </div>
+            </section>
+        </div>
     </main>
-    </body>
+</body>
+
 </html>
