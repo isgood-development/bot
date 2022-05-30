@@ -3,13 +3,14 @@ import winerp
 from decouple import config, UndefinedValueError
 
 import logging
-from logging import getLogger
 
 import discord
 from discord import app_commands
 from discord.ext import commands
 
-getLogger("winerp").setLevel(logging.DEBUG)
+from extensions.context import ISgoodContext
+
+logging.getLogger("winerp").setLevel(logging.DEBUG)
 
 # extensions = [
 #     # "cogs.mod",
@@ -51,6 +52,8 @@ class ISgood(commands.Bot):
         self.tick = '<:isgood_check:964533255439257630>' 
         self.cross = '<:isgood_cross:964533968068284456>' 
 
+    async def get_context(self, message, *, cls=ISgoodContext):
+        return await super().get_context(message, cls=cls)
 
     # async def create_items(self):
     #     prefixes = await self.conn.fetch("SELECT * FROM prefixes")
